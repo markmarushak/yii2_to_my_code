@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "profile_field".
@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $type
  */
-class ProfileField extends \yii\db\ActiveRecord
+class ProfileField extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -26,10 +26,12 @@ class ProfileField extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type','title'], 'required'],
+            [['type','title','Required'], 'required'],
             [['type'], 'string'],
         ];
     }
+
+
 
     /**
      * @inheritdoc
@@ -41,5 +43,9 @@ class ProfileField extends \yii\db\ActiveRecord
             'title' => 'Title',
             'type' => 'Type',
         ];
+    }
+
+    public function getProfile() {
+        return $this->hasOne(Profile::className(),['profile_field_id'=>'id']);
     }
 }

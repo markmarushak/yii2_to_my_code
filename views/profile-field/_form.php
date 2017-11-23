@@ -14,9 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'type')->dropDownList([ 'string' => 'String', 'name' => 'Name', 'text' => 'Text', 'number' => 'Number', ], ['prompt' => '']) ?>
-
-    <?= $form->field($model, 'required')->checkbox(['value'=> boolean]) ?>
+    <?= $form->field($model, 'type')->dropDownList([ 'text' => 'Text', 'data' => 'Data', 'button' => 'Button', 'file' => 'File', 'email' => 'Email', 'radio' => 'Radio', 'reset' => 'Reset', 'submit' => 'Submit', 'image' => 'Image', 'hidden' => 'Hidden', 'checkbox' => 'Checkbox', 'select' => 'Select', ], ['prompt' => '']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

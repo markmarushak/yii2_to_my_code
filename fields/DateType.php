@@ -1,11 +1,9 @@
 <?php
 
-namespace yii\filters;
+namespace yii\fields;
 
 
-class DateType
-{
+class Date {
 
-    $date = new DateType();
 
 }

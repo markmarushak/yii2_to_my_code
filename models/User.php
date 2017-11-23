@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user".
@@ -12,7 +12,7 @@ use Yii;
  * @property string $password
  * @property string $mail
  */
-class User extends \yii\db\ActiveRecord
+class User extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -48,7 +48,7 @@ class User extends \yii\db\ActiveRecord
     }
 
     public function getProfile() {
-        return $this->hasMany(Profile::className(),['id'=>'profile_id']);
+        return $this->hasOne(Profile::className(),['user_id'=>'id']);
     }
 
 }
