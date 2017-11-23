@@ -1,39 +1,30 @@
+
 <?php
-
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\ProfileSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+$this->title = 'Profile Fields';
 
-$this->title = 'Profiles';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="profile-index">
+<? debug($model::find()->all())?>
+<?php $form = ActiveForm::begin(); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Profile', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-//            ['class' => 'yii\grid\SerialColumn'],
+    <?php
+
+//    foreach ($model as $mod){
+//         echo $form->field($model,'id')->label($mod->type);
+//    }
 //
-//            'id',
-            ['attribute' => 'user_id',
-                'value'  => 'user.id',],
+//    ?>
 
-            ['attribute' => 'profile_field',
-                'value' => 'profile_field.type'],
 
-            'value',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-</div>
+
+    <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+
+<?php ActiveForm::end(); ?>
+
+
+
