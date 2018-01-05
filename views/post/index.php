@@ -1,18 +1,29 @@
 <?php
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\LinkPager;
+use yii\widgets\ListView;
+
+
+$this->title = $category->name;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
-    <ul>
-        <?php
-        foreach ($model as $m) {
-            echo '<li><a href="/index.php?r=post/post&id='.$m->id.'">'.$m->caption.'</a></li>'.'<br>';
-        }
-        ?>
-    </ul>
+
     <div class="button">
-        <?= Html::a('Добавить пост','/index.php?r=post/add', ['class' => 'btn btn-primary'])?>
+    <?php
+        if (Yii::$app->user->identity) {
+            echo Html::a('Добавить пост',Url::to(['post/add', 'categoryId'=> $category->id]), ['class' => 'btn btn-primary']);
+        }
+    ?>
     </div>
+    <?php
+//        echo $category->id;
+    ?>
+    <?= ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => '_list',
+    ]) ?>
 </div>
 

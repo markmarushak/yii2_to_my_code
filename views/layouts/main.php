@@ -7,6 +7,7 @@ use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
@@ -29,35 +30,53 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
+//        'brandLabel' => Yii::$app->name,
+//        'brandLabel' => 'Форум | найди свою ситуацию из жизни',
+//        'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
+    $menuItems = [
+        ['label' => 'Home', 'url' => ['/']],
+        ['label' => 'About', 'url' => ['/about']],
+        ['label' => 'Поиск свидетелей', 'url' => ['/post', 'categoryId' => 1]],
+        ['label' => 'Стал свидетелем', 'url' => ['/post', 'categoryId' => 2]],
+        ['label' => 'Готовится преступление', 'url' => ['/post', 'categoryId' => 3]],
+//        ['label' => 'Post', 'url' => ['/post']],
+    ];
+
+    if (Yii::$app->user->isGuest) {
+        $menuItems[] = ['label' => 'Signup', 'url' => ['site/signup']];
+        $menuItems[] = ['label' => 'Login', 'url' => ['site/login']];
+    } else {
+        $menuItems[] = '<li>'
+            . Html::beginForm(['/logout'], 'post')
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>';
+    }
+    $menuItems[] =
+        '<li class="nav_search slide-hidden">'
+        .Html::beginForm('/site/search','post')
+        .Html::textInput('PostSearch[description]',null,['class' => 'form-control' ])
+        .Html::endForm()
+        .'<span class="block-glob">'.Html::a('Расширенный поиск',Url::to('/site/search-global'),['class' => 'global-search']).'</span>'
+        .'</li>';
+    $menuItems[] =
+        '<li class="open-search">'
+        .'<a href="#" id="toggle-search"><span class="glyphicon glyphicon-search"></span></a>'
+        .'</li>';
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'profile', 'url' => ['/profile']],
-            ['label' => 'user', 'url' => ['/user']],
-            ['label' => 'profile-field', 'url' => ['/profile-field']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'upload', 'url' => ['/site/upload']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+        'items' => $menuItems,
     ]);
+
     NavBar::end();
     ?>
 
@@ -79,6 +98,9 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </body>
 </html>
 <?php $this->endPage() ?>

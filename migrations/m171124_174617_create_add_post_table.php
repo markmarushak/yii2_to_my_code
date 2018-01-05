@@ -31,6 +31,8 @@ class m171124_174617_create_add_post_table extends Migration
 
             'map'=>$this->string(),
         ]);
+        $this->addForeignKey('FK_post_event_id_event', 'add_post', 'event_id', 'event', 'id', 'RESTRICT');
+
     }
 
     /**

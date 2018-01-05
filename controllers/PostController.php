@@ -3,43 +3,91 @@
 
 namespace app\controllers;
 
-use app\models\Post;
+
+use app\models\Categories;
+use app\models\City;
+use app\models\Country;
+use app\models\Event;
+use app\models\Region;
+use app\models\VideoPost;
+use Yii;
+use yii\data\Pagination;
+use yii\helpers\FileHelper;
 use yii\web\Controller;
-use yii;
+use yii\web\UploadedFile;
+use app\models\ImagesPost;
+use app\models\Post;
+use app\models\PostSearch;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+
 
 class PostController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex($categoryId)
     {
-        $model = Post::find()->all();
+        $searchModel = new PostSearch();
+        $dataProvider = $searchModel->search([],$categoryId);
 
-        return $this->render('index',['model'=>$model]);
+        $category = Categories::find()->where(['id' => $categoryId])->one();
+
+        return $this->render('index',[
+            'category' => $category,
+            'dataProvider' => $dataProvider,
+
+
+        ]);
     }
 
-    public function actionAdd()
-    {
-        $model = new Post();
 
-        if($model->load(Yii::$app->request->post())){
-            if ($model->validate()){
-                Yii::$app->session->setFlash('sucsses','Данные приняты!');
-                return $this->render('check', compact('model'));
-            }else{
-                Yii::$app->session->setFlash('error','');
-            }
+
+    public function actionAdd($categoryId)
+    {
+        $post = new Post();
+        $post->user_id = Yii::$app->user->identity->id;
+        $post->categories_id = $categoryId;
+        $event = Event::find()->all();
+        if($post->load(Yii::$app->request->post()) && $post->save() ){
+//            if(!is_dir(Yii::getAlias('@web').'img/'.$post->event_id)){
+//                FileHelper::createDirectory(Yii::getAlias('@web').'img/'.$post->event_id);
+//            }
+
+
+//                    if ($post->fotoFile = UploadedFile::getInstance($post,'fotoFile')){
+//                        $post->uploadImg();
+//                    }
+//                    if ($post->videoFile = UploadedFile::getInstance($post,'videoFile')){
+//                        $post->uploadVideo();
+//                    }
+            return Yii::$app->response->redirect(['post/post',' id' => $post->id ]);
         }
 
-        return $this->render('add',compact('model'));
+        return $this->render('add', [
+            'post' => $post,
+            'event' => $event,
+        ]);
     }
-
-
-
 
     public function actionPost($id)
     {
         $post = Post::findOne($id);
+        $gps = City::findOne($post->city);
+        return $this->render('post',[
+            'post' => $post,
+            'gps' => $gps,
+        ]);
+    }
 
-        return $this->render('post',compact('post'));
+    public function actionSearchGlobal()
+    {
+        $searchModel = new PostSearch();
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('_search_res', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 }

@@ -2,9 +2,9 @@
 
 use yii\helpers\Html;
 ?>
-<? debug($model->attributes) ?>
+<? debug($post->attributes) ?>
 <ul>
-    <?php foreach ($model as $key=>$value){
+    <?php foreach ($post as $key=> $value){
         echo Html::encode($key).'&nbsp; - &nbsp;';
         echo Html::encode($value).'<br>';
     } ?>

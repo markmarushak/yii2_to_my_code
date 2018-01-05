@@ -113,3 +113,60 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.gps {
+    background: #eee;
+}
+.gps li {
+    display: inline-block;
+    padding:10px 20px;}
+
+.preloader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    background: #ffffff3d url(../img/preloader/Eclipse.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.nav_search {
+    vertical-align: middle;
+    height: 100%;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+    /*transition: all .5s;*/
+}
+
+.nav_search.slide-hidden form {
+    position: relative;
+}
+.nav_search form
+{
+    position: relative;
+    width: 0;
+}
+.nav_search form:hover +  span.block-glob,
+span.block-glob:hover
+{
+    display: block;
+}
+span.block-glob {
+    position: fixed;
+    display: none;
+    border-radius:  0 0 5px 5px;
+    padding: 10px;
+    width: 200px;
+    text-align:  center;
+    background:  #333;
+    transition: all .6s;
+}
+.nav_search .global-search {color:  #fff;}
+
+
+
